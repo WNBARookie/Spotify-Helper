@@ -105,7 +105,7 @@ app.get("/getAlbum/:id", (req, res) => {
 app.get("/getArtist/:id", (req, res) => {
   spotifyApi.getArtist(req.params.id).then(
     function (data) {
-      res.send(data.body);
+      res.send(data);
     },
     function (err) {
       console.error(err);
@@ -117,7 +117,23 @@ app.get("/getArtist/:id", (req, res) => {
 app.get("/getTrack/:id", (req, res) => {
   spotifyApi.getTrack(req.params.id).then(
     function (data) {
-      res.send(data.body);
+      let item = data.body;
+
+      track = {
+        id: item.id,
+        title: item.name,
+        artists: item.artists.map((artist) => artist.name),
+        album: {
+          title: item.album.name,
+          artists: item.album.artists.map((artist) => artist.name),
+          albumCover: item.album.images[0].url,
+        },
+        duration: msToMinAndSec(item.duration_ms),
+        explicit: item.explicit,
+        previewURL: item.preview_url,
+      };
+
+      res.send(track);
     },
     function (err) {
       console.error(err);
@@ -129,7 +145,18 @@ app.get("/getTrack/:id", (req, res) => {
 app.get("/getAudioFeatures/:id", (req, res) => {
   spotifyApi.getAudioFeaturesForTrack(req.params.id).then(
     function (data) {
-      res.send(data.body);
+      let item = data.body;
+
+      track = {
+        id: item.id,
+        duration: msToMinAndSec(item.duration_ms),
+        key: getKey(item.key),
+        mode: getMode(item.mode),
+        tempo: item.tempo,
+        timeSignature: getTimeSignature(item.time_signature),
+      };
+
+      res.send(track);
     },
     function (err) {
       done(err);
@@ -141,15 +168,6 @@ app.get("/getAudioFeatures/:id", (req, res) => {
 app.get("/searchForTracks/:term", (req, res) => {
   spotifyApi.searchTracks(req.params.term).then(
     function (data) {
-      //   console.log(data.body);
-      //   console.log(data.body.tracks.items[0]);
-      //   let albumCover = data.body.tracks.items[0].album.images[0].url;
-      //   let title = data.body.tracks.items[0].name;
-      //   let artists = data.body.tracks.items[0].artists.map(
-      //     (artist) => artist.name
-      //   );
-      //   let id = data.body.tracks.items[0].id;
-
       let items = data.body.tracks.items;
       let songList = [];
 
@@ -174,3 +192,51 @@ app.listen(process.env.PORT, () =>
     `HTTP Server up. Now go to http://localhost:${process.env.PORT}/login in your browser.`
   )
 );
+
+// HELPER METHODS
+function msToMinAndSec(ms) {
+  let minutes = Math.floor(ms / 60000);
+  let seconds = ((ms % 60000) / 1000).toFixed(0);
+  return minutes + ":" + (parseInt(seconds) < 10 ? "0" : "") + seconds;
+}
+
+function getMode(modeInt) {
+  return modeInt === 1 ? "Major" : "Minor";
+}
+
+function getTimeSignature(timeSignatureInt) {
+  return `${timeSignatureInt}/4`;
+}
+
+function getKey(keyInt) {
+  switch (keyInt) {
+    case -1:
+      return "No Key Detected";
+    case 0:
+      return "C";
+    case 1:
+      return "C♯/D♭";
+    case 2:
+      return "D";
+    case 3:
+      return "D♯/E♭";
+    case 4:
+      return "E";
+    case 5:
+      return "F";
+    case 6:
+      return "F♯/G♭";
+    case 7:
+      return "G";
+    case 8:
+      return "G♯/A♭";
+    case 9:
+      return "A";
+    case 10:
+      return "A♯/B♭";
+    case 11:
+      return "B";
+    default:
+      return;
+  }
+}
