@@ -152,7 +152,7 @@ app.get("/getAudioFeatures/:id", (req, res) => {
         duration: msToMinAndSec(item.duration_ms),
         key: getKey(item.key),
         mode: getMode(item.mode),
-        tempo: item.tempo,
+        tempo: parseInt(item.tempo),
         timeSignature: getTimeSignature(item.time_signature),
       };
 
@@ -209,34 +209,25 @@ function getTimeSignature(timeSignatureInt) {
 }
 
 function getKey(keyInt) {
-  switch (keyInt) {
-    case -1:
-      return "No Key Detected";
-    case 0:
-      return "C";
-    case 1:
-      return "C♯/D♭";
-    case 2:
-      return "D";
-    case 3:
-      return "D♯/E♭";
-    case 4:
-      return "E";
-    case 5:
-      return "F";
-    case 6:
-      return "F♯/G♭";
-    case 7:
-      return "G";
-    case 8:
-      return "G♯/A♭";
-    case 9:
-      return "A";
-    case 10:
-      return "A♯/B♭";
-    case 11:
-      return "B";
-    default:
-      return;
+  const dict = {
+    "-1": "No Key Detected",
+    0: "C",
+    1: "C♯/D♭",
+    2: "D",
+    3: "D♯/E♭",
+    4: "E",
+    5: "F",
+    6: "F♯/G♭",
+    7: "G",
+    8: "G♯/A♭",
+    9: "A",
+    10: "A♯/B♭",
+    11: "B",
+  };
+
+  for (const key of Object.keys(dict)) {
+    if (key == keyInt) return dict[key];
   }
+
+  return "N/A";
 }
