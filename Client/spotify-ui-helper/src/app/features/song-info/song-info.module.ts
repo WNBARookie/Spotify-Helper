@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { SongSearchComponent } from './components/song-search/song-search.component';
 import { SongInfoDetailsComponent } from './components/song-info-details/song-info-details.component';
 import { Routes, RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { ArtistPipe } from '../../shared/pipes/artist.pipe';
 
 const routes: Routes = [
   { path: '', component: SongSearchComponent },
@@ -10,7 +13,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [SongSearchComponent, SongInfoDetailsComponent],
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  declarations: [SongSearchComponent, SongInfoDetailsComponent, ArtistPipe],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    FormsModule,
+    ReactiveFormsModule,
+    InputTextModule,
+  ],
 })
 export class SongInfoModule {}

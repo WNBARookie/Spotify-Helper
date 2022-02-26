@@ -1,0 +1,16 @@
+.song-info {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+
+  img {
+    height: 50px;
+    width: 50px;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    transition: 0.3s ease;
+    cursor: pointer;
+  }
+}

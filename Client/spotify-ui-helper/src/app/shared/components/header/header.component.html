@@ -1,0 +1,10 @@
+<div class="header-container">
+  <div *ngIf="username" class="user">
+    <img src="{{ profilePic }}" alt="profile pic" />
+    <h4>{{ username }}</h4>
+  </div>
+
+  <div *ngIf="!username" class="signin">
+    <a href="http://localhost:8080/login" class="login">Login With Spotify</a>
+  </div>
+</div>

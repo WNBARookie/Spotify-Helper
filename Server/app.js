@@ -87,6 +87,18 @@ app.get("/callback", (req, res) => {
     });
 });
 
+// ----- USER METHODS -----
+
+// get user profile
+app.get("/getUserProfile", (req, res) => {
+  (async () => {
+    const me = await spotifyApi.getMe();
+    res.send(me["body"]);
+  })().catch((e) => {
+    console.error(e);
+  });
+});
+
 // ----- METADATA FOR TRACKS, ALBUMS, ARTISTS -----
 
 // get album by id
