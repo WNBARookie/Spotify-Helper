@@ -1,1 +1,26 @@
-<p>song-info-details works!</p>
+<!-- <p>{{ songID }}</p> -->
+<!-- <p>{{ trackWithAnalysis$ | json }}</p> -->
+
+<!-- <div *ngIf="trackWithAnalysis$ | async as track">
+  {{ track }}
+</div> -->
+
+<div class="song-details">
+  <!-- <p>{{ trackWithAnalysis | json }}</p> -->
+  <div class="main-info">
+    <img src="{{ trackWithAnalysis.album.albumCover }}" alt="album cover" />
+    <div class="song-info">
+      <h2 class="song-title">{{ trackWithAnalysis.title }}</h2>
+      <p>{{ trackWithAnalysis.artists | artist }}</p>
+      <div class="song-info-footer">
+        <p>{{ trackWithAnalysis.duration }}</p>
+        <audio controls src="{{ trackWithAnalysis.previewURL }}"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="music-info">
+    <p>{{ trackWithAnalysis.key }} {{ trackWithAnalysis.mode }}</p>
+    <p>{{ trackWithAnalysis.tempo }} bpm</p>
+    <p>{{ trackWithAnalysis.timeSignature }} time</p>
+  </div>
+</div>

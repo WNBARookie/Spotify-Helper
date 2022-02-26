@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
-import { SongSearchResult } from 'src/app/features/song-info/interface';
+import {
+  AudioAnalysis,
+  SongSearchResult,
+  Track,
+} from 'src/app/features/song-info/interface';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +20,11 @@ export class SpotifyApiActionService {
     return this.http.get<any>(`${this.baseURL}/getUserProfile`);
   }
 
-  getTrack(id: string): Observable<any> {
+  getTrack(id: string): Observable<Track> {
     return this.http.get<any>(`${this.baseURL}/getTrack/${id}`);
   }
 
-  getAudioAnalysis(id: string): Observable<any> {
+  getAudioAnalysis(id: string): Observable<AudioAnalysis> {
     return this.http.get<any>(`${this.baseURL}/getAudioFeatures/${id}`);
   }
 

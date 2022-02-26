@@ -1,4 +1,5 @@
 <div class="header-container">
+  <a [routerLink]="['/home']">Home</a>
   <div *ngIf="username" class="user">
     <img src="{{ profilePic }}" alt="profile pic" />
     <h4>{{ username }}</h4>

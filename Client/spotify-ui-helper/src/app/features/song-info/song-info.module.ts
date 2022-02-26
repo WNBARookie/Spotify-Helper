@@ -9,7 +9,7 @@ import { ArtistPipe } from '../../shared/pipes/artist.pipe';
 
 const routes: Routes = [
   { path: '', component: SongSearchComponent },
-  { path: 'song-details', component: SongInfoDetailsComponent },
+  { path: 'song-details/:id', component: SongInfoDetailsComponent },
 ];
 
 @NgModule({
